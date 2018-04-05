@@ -13,24 +13,23 @@
       <div class="title">Name</div>
       <input type="text">
     </section>
-
     <section>
       <div class="title">Email</div>
       <input type="text">
     </section>
-
     <section>
       <form action="">
         <div class="title">Date</div>
-        <input id="date" type="text">
+				<div class="calendar">
+					<span class="calendar__selected-date"></span>
+					<input type="date" class="calendar__input">
+				</div>
       </form>
     </section>
-
     <section>
       <div class="title">Password</div>
       <input type="password">
     </section>
-
     <section>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe, hic alias? Consequatur quis dolorem, explicabo perspiciatis necessitatibus culpa fuga quidem, eos unde ad perferendis cumque, pariatur quasi sapiente ea, blanditiis!
     </section>
@@ -38,15 +37,7 @@
 
   <script src="datepicker.js"></script>
   <script>
-    // Feb 1 1997 = saturday
-    const picker = datepicker('#date', {
-      dateSelected: new Date('2/1/2018'),
-      // startDate: new Date('3/1/2018')
-      // startDate: new Date('2/1/1998'),
-      // startDay: 2,
-    });
-
-    document.querySelector('#date').focus();
+    const picker = datepicker('.calendar');
   </script>
 </body>
 </html>
