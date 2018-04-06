@@ -150,7 +150,6 @@
   -ms-flex-pack: center;
       justify-content: center;
   cursor: pointer;
-  transition: background .1s;
   border-radius: 50%;
 }
 .calendar__datepicker .calendar__datepicker-square.calendar__datepicker-current {
@@ -185,4 +184,29 @@
 }
 .calendar__datepicker .calendar__datepicker-square:not(.calendar__datepicker-empty):not(.calendar__datepicker-disabled):not(.calendar__datepicker-day):hover {
   background: #eff5f8;
+}
+.calendar__datepicker .calendar__datepicker-num-range {
+  background-color: #eff5f8;
+  border-radius: 0 !important;
+}
+.calendar__datepicker .calendar__datepicker-num-range-left {
+  background-color: #eff5f8;
+  border-radius: 50% 0 0 50% !important;
+}
+.calendar__datepicker .calendar__datepicker-num-range-right {
+  background-color: #eff5f8;
+  border-radius: 0 50% 50% 0 !important;
+}
+.calendar__datepicker .calendar__datepicker-active-range:not(.calendar__datepicker-num-range-left):not(.calendar__datepicker-num-range-right) {
+  position: relative;
+}
+.calendar__datepicker .calendar__datepicker-active-range:not(.calendar__datepicker-num-range-left):not(.calendar__datepicker-num-range-right):before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #eff5f8;
+  z-index: -1;
 }
