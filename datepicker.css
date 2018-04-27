@@ -17,7 +17,8 @@
 .calendar__datepicker {
   padding: 25px 20px 30px 20px;
   color: black;
-  position: absolute;
+	position: absolute;
+	top: 100%;
   width: 389px;
   display: -ms-flexbox;
   display: flex;
