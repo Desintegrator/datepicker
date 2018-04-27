@@ -533,7 +533,7 @@
    */
 	function hideCal(instance) {
 		instance.calendar.classList.add('calendar__datepicker-hidden');
-		instance.calendar.parentNode.classList.add('open');
+		instance.calendar.parentNode.classList.remove('open');
 		instance.onHide && instance.onHide(instance);
 	}
 
@@ -542,7 +542,7 @@
    */
 	function showCal(instance) {
 		instance.calendar.classList.remove('calendar__datepicker-hidden');
-		instance.calendar.parentNode.classList.remove('open');
+		instance.calendar.parentNode.classList.add('open');
 		calculatePosition(instance);
 		instance.onShow && instance.onShow(instance);
 	}
