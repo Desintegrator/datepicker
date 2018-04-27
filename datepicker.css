@@ -189,18 +189,18 @@
   background-color: #eff5f8;
   border-radius: 0 !important;
 }
-.calendar__datepicker .calendar__datepicker-num-range-left {
+.calendar__datepicker .calendar__datepicker-num-range-left:not(.calendar__datepicker-active-range) {
   background-color: #eff5f8;
   border-radius: 50% 0 0 50% !important;
 }
-.calendar__datepicker .calendar__datepicker-num-range-right {
+.calendar__datepicker .calendar__datepicker-num-range-right:not(.calendar__datepicker-active-range) {
   background-color: #eff5f8;
   border-radius: 0 50% 50% 0 !important;
 }
-.calendar__datepicker .calendar__datepicker-active-range:not(.calendar__datepicker-num-range-left):not(.calendar__datepicker-num-range-right) {
+.calendar__datepicker .calendar__datepicker-active-range {
   position: relative;
 }
-.calendar__datepicker .calendar__datepicker-active-range:not(.calendar__datepicker-num-range-left):not(.calendar__datepicker-num-range-right):before {
+.calendar__datepicker .calendar__datepicker-active-range:before {
   content: '';
   position: absolute;
   left: 0;
@@ -209,4 +209,10 @@
   bottom: 0;
   background-color: #eff5f8;
   z-index: -1;
+}
+.calendar__datepicker .calendar__datepicker-active-range.calendar__datepicker-num-range-left:before {
+	border-radius: 50% 0 0 50%;
+}
+.calendar__datepicker .calendar__datepicker-active-range.calendar__datepicker-num-range-right:before {
+	border-radius: 0 50% 50% 0;
 }
