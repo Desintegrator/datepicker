@@ -1,3 +1,20 @@
+.calendar {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	margin: 10px 0;
+	cursor: pointer;
+}
+.calendar__input {
+	display: none;
+}
+.calendar__selected-date {
+	user-select: none;
+	position: absolute;
+	z-index: -1;
+}
 .calendar__datepicker {
   padding: 25px 20px 30px 20px;
   color: black;
