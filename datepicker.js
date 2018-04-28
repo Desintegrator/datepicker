@@ -116,10 +116,13 @@
   /*
    *
    */
-	function Datepicker(selector, options) {
-		const el = document.querySelector(selector);
+	function Datepicker(el, options) {
+		if (!el || typeof(el) !== 'object') {
+			console.error(`datepicker: el error, el equal ${el}, el is ${typeof(el)}`);
+			return;
+		}
 		if (options) {
-			options = sanitizeOptions(options || null, el, selector);
+			options = sanitizeOptions(options || null, el);
 		}
 		const calendar = document.createElement('div');
 		const dateSelected = new Date();
