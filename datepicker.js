@@ -209,6 +209,7 @@
 		el.appendChild(calendar);
 
 		calendar.parentNode.querySelector('.calendar__selected-date').innerHTML = `${dateSelected.getDate()} ${monthsSelected[dateSelected.getMonth()]} ${dateSelected.getFullYear()}`;
+		calendar.parentNode.querySelector('.calendar__three-days').innerHTML = '± 3 дня';
 
 		const checkbox = calendar.querySelector('.calendar__datepicker-checkbox__input');
 		checkbox.addEventListener('click', () => {
@@ -463,8 +464,10 @@
 			instance.ifRangeActive = !instance.ifRangeActive;
 			if (!instance.ifRangeActive) {
 				clearMarkInRangeDays(instance);
+				instance.calendar.parentNode.querySelector('.calendar__three-days').classList.remove('calendar__three-days_hidden');
 			} else {
 				markInRangeDays(instance);
+				instance.calendar.parentNode.querySelector('.calendar__three-days').classList.addClass('calendar__three-days_hidden');
 			}
 		});
 		if (!instance.ifRangeActive) {

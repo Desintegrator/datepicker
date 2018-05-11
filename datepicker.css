@@ -14,6 +14,16 @@
 	position: absolute;
 	z-index: -1;
 }
+.calendar__three-days {
+	user-select: none;
+	position: absolute;
+	color: #c2c2c2;
+	z-index: -1;
+	left: 145px;
+}
+.calendar__three-days_hidden {
+	display: none;
+}
 .calendar__datepicker {
   padding: 25px 20px 30px 20px;
   color: black;
