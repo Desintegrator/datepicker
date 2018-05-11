@@ -22,6 +22,8 @@
         <div class="title">Date</div>
 				<div class="calendar">
 					<span class="calendar__selected-date"></span>
+					<span class="calendar__three-days"></span>
+					<div class="open-icon"></div>
 					<input type="date" class="calendar__input">
 				</div>
       </form>
@@ -37,7 +39,8 @@
 
   <script src="datepicker.js"></script>
   <script>
-    const picker = datepicker('.calendar');
+		const picker = document.querySelector('.calendar');
+		datepicker(picker);
   </script>
 </body>
 </html>

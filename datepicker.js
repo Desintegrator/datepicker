@@ -216,8 +216,10 @@
 			instance.ifRangeActive = !instance.ifRangeActive;
 			if (!instance.ifRangeActive) {
 				clearMarkInRangeDays(instance);
+				instance.calendar.parentNode.querySelector('.calendar__three-days').classList.add('calendar__three-days_hidden');
 			} else {
 				markInRangeDays(instance);
+				instance.calendar.parentNode.querySelector('.calendar__three-days').classList.remove('calendar__three-days_hidden');
 			}
 		});
 		instance.ifRangeActive = checkbox.checked;
@@ -464,10 +466,10 @@
 			instance.ifRangeActive = !instance.ifRangeActive;
 			if (!instance.ifRangeActive) {
 				clearMarkInRangeDays(instance);
-				instance.calendar.parentNode.querySelector('.calendar__three-days').classList.remove('calendar__three-days_hidden');
+				instance.calendar.parentNode.querySelector('.calendar__three-days').classList.add('calendar__three-days_hidden');
 			} else {
 				markInRangeDays(instance);
-				instance.calendar.parentNode.querySelector('.calendar__three-days').classList.addClass('calendar__three-days_hidden');
+				instance.calendar.parentNode.querySelector('.calendar__three-days').classList.remove('calendar__three-days_hidden');
 			}
 		});
 		if (!instance.ifRangeActive) {
