@@ -390,7 +390,6 @@
 		target.classList.add('calendar__datepicker-active');
 
 		// new mark in-range days
-		console.log(instance);
 		if (instance.ifRangeActive) {
 			markInRangeDays(instance);
 		}
@@ -450,7 +449,6 @@
 		instance.onMonthChange && year && instance.onMonthChange(instance);
 
 
-		console.log(instance);
 		// console.log(instance.dateSelected.getMonth());
 		// console.log(instance.dateSelected.getFullYear());
 		// console.log(instance.currentYear);
