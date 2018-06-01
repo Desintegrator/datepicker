@@ -64,7 +64,7 @@
 							}
 						}
 					} else {
-
+						console.log(1);
 						if (selectedDayIndex + i < days.length) {
 							if (!days[selectedDayIndex + i].classList.contains('calendar__datepicker-disabled') &&
 									!days[selectedDayIndex + i].classList.contains('calendar__datepicker-empty')) {
@@ -137,6 +137,9 @@
 
 			// Starts the calendar with a date selected.
 			dateSelected: dateSelected,
+
+			// if range options needed
+			ifRange: options ? options.ifRange : false,
 
 			// if range checkbox +- 3 days active
 			ifRangeActive: null,
@@ -211,18 +214,25 @@
 		calendar.parentNode.querySelector('.calendar__selected-date').innerHTML = `${dateSelected.getDate()} ${monthsSelected[dateSelected.getMonth()]} ${dateSelected.getFullYear()}`;
 		calendar.parentNode.querySelector('.calendar__three-days').innerHTML = '± 3 дня';
 
-		const checkbox = calendar.querySelector('.calendar__datepicker-checkbox__input');
-		checkbox.addEventListener('click', () => {
-			instance.ifRangeActive = !instance.ifRangeActive;
-			if (!instance.ifRangeActive) {
-				clearMarkInRangeDays(instance);
-				instance.calendar.parentNode.querySelector('.calendar__three-days').classList.add('calendar__three-days_hidden');
-			} else {
+		if (instance.ifRange) {
+			const checkbox = calendar.querySelector('.calendar__datepicker-checkbox__input');
+			checkbox.addEventListener('click', () => {
+				instance.ifRangeActive = !instance.ifRangeActive;
+				if (!instance.ifRangeActive) {
+					clearMarkInRangeDays(instance);
+					instance.calendar.parentNode.querySelector('.calendar__three-days').classList.add('calendar__three-days_hidden');
+				} else {
+					markInRangeDays(instance);
+					instance.calendar.parentNode.querySelector('.calendar__three-days').classList.remove('calendar__three-days_hidden');
+				}
+			});
+			instance.ifRangeActive = checkbox.checked;
+			if (instance.ifRangeActive) {
 				markInRangeDays(instance);
-				instance.calendar.parentNode.querySelector('.calendar__three-days').classList.remove('calendar__three-days_hidden');
 			}
-		});
-		instance.ifRangeActive = checkbox.checked;
+		} else {
+			instance.calendar.parentNode.removeChild(instance.calendar.parentNode.querySelector('.calendar__three-days'));
+		}
 
 		instance.input = calendar.parentNode.querySelector('.calendar__input');
 
@@ -261,7 +271,10 @@
 	function calendarHtml(date, instance) {
 		const controls = createControls(date, instance);
 		const month = createMonth(date, instance);
-		const checkbox = createCheckbox();
+		let checkbox = '';
+		if (instance.ifRange) {
+			checkbox = createCheckbox();
+		}
 		instance.calendar.innerHTML = controls + month + checkbox;
 	}
 
@@ -311,7 +324,7 @@
 
 		// Same year, same month?
 		const today = new Date();
-		const isThisMonth = today.toJSON().slice(0, 7) === date.toJSON().slice(0, 7);
+		const isThisMonth = today.toDateString() === date.toDateString();
 
 		// Calculations for the squares on the calendar.
 		const copy = new Date(new Date(date).setDate(1));
@@ -352,11 +365,19 @@
 				const sun = days[0];
 				const currentValidDay = isThisMonth && !disabled && num === today.getDate();
 
+				// console.log('currentValidDay', currentValidDay);
+				// console.log('isThisMonth', isThisMonth);
+				// console.log('disabled', disabled);
+				// console.log('num', num);
+				// console.log('today', today.getDate());
+
 				otherClass = disabled ? 'calendar__datepicker-disabled' : currentValidDay ? 'calendar__datepicker-current' : '';
 			}
 
 			// Currently selected day.
-			if (+thisDay === +dateSelected && !isEmpty) otherClass += ' calendar__datepicker-active';
+			if (thisDay.toDateString() === dateSelected.toDateString() && !isEmpty) {
+				otherClass += ' calendar__datepicker-active';
+			}
 
 			calendarSquares.push(`<div class="calendar__datepicker-square calendar__datepicker-num ${weekday} ${otherClass}">${span}</div>`);
 		}
@@ -390,7 +411,8 @@
 		target.classList.add('calendar__datepicker-active');
 
 		// new mark in-range days
-		if (instance.ifRangeActive) {
+		console.log(instance);
+		if (instance.ifRange && instance.ifRangeActive) {
 			markInRangeDays(instance);
 		}
 
@@ -449,6 +471,7 @@
 		instance.onMonthChange && year && instance.onMonthChange(instance);
 
 
+		console.log(instance);
 		// console.log(instance.dateSelected.getMonth());
 		// console.log(instance.dateSelected.getFullYear());
 		// console.log(instance.currentYear);
@@ -459,19 +482,21 @@
 					clearMarkInRangeDays(instance);
 					markInRangeDays(instance);
 		}
-		const checkbox = instance.calendar.querySelector('.calendar__datepicker-checkbox__input');
-		checkbox.addEventListener('click', () => {
-			instance.ifRangeActive = !instance.ifRangeActive;
+		if (instance.ifRange) {
+			const checkbox = instance.calendar.querySelector('.calendar__datepicker-checkbox__input');
+			checkbox.addEventListener('click', () => {
+				instance.ifRangeActive = !instance.ifRangeActive;
+				if (!instance.ifRangeActive) {
+					clearMarkInRangeDays(instance);
+					instance.calendar.parentNode.querySelector('.calendar__three-days').classList.add('calendar__three-days_hidden');
+				} else {
+					markInRangeDays(instance);
+					instance.calendar.parentNode.querySelector('.calendar__three-days').classList.remove('calendar__three-days_hidden');
+				}
+			});
 			if (!instance.ifRangeActive) {
-				clearMarkInRangeDays(instance);
-				instance.calendar.parentNode.querySelector('.calendar__three-days').classList.add('calendar__three-days_hidden');
-			} else {
-				markInRangeDays(instance);
-				instance.calendar.parentNode.querySelector('.calendar__three-days').classList.remove('calendar__three-days_hidden');
+				checkbox.checked = false;
 			}
-		});
-		if (!instance.ifRangeActive) {
-			checkbox.checked = false;
 		}
 	}
 
