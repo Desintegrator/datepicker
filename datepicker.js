@@ -40,7 +40,7 @@
 					if (i !== 3) {
 						if (selectedDayIndex + i < days.length) {
 							if (!days[selectedDayIndex + i].classList.contains('calendar__datepicker-disabled') &&
-									!days[selectedDayIndex + i].classList.contains('calendar__datepicker-empty')) {
+								!days[selectedDayIndex + i].classList.contains('calendar__datepicker-empty')) {
 								days[selectedDayIndex + i].classList.add('calendar__datepicker-num-range');
 							} else {
 								if (!rightMarked) {
@@ -51,23 +51,22 @@
 							}
 						}
 
-						if (selectedDayIndex - i > -1) {	
+						if (selectedDayIndex - i > -1) {
 							if (!days[selectedDayIndex - i].classList.contains('calendar__datepicker-disabled') &&
-									!days[selectedDayIndex - i].classList.contains('calendar__datepicker-empty')) {
+								!days[selectedDayIndex - i].classList.contains('calendar__datepicker-empty')) {
 								days[selectedDayIndex - i].classList.add('calendar__datepicker-num-range');
 							} else {
 								if (!leftMarked) {
 									leftMarked = true;
 									days[selectedDayIndex - i + 1].classList.remove('calendar__datepicker-num-range');
-									days[selectedDayIndex - i + 1].classList.add('calendar__datepicker-num-range-left');	
+									days[selectedDayIndex - i + 1].classList.add('calendar__datepicker-num-range-left');
 								}
 							}
 						}
 					} else {
-						console.log(1);
 						if (selectedDayIndex + i < days.length) {
 							if (!days[selectedDayIndex + i].classList.contains('calendar__datepicker-disabled') &&
-									!days[selectedDayIndex + i].classList.contains('calendar__datepicker-empty')) {
+								!days[selectedDayIndex + i].classList.contains('calendar__datepicker-empty')) {
 								days[selectedDayIndex + i].classList.add('calendar__datepicker-num-range-right');
 							} else {
 								if (!rightMarked) {
@@ -79,7 +78,7 @@
 
 						if (selectedDayIndex - i > -1) {
 							if (!days[selectedDayIndex - i].classList.contains('calendar__datepicker-disabled') &&
-									!days[selectedDayIndex - i].classList.contains('calendar__datepicker-empty')) {
+								!days[selectedDayIndex - i].classList.contains('calendar__datepicker-empty')) {
 								days[selectedDayIndex - i].classList.add('calendar__datepicker-num-range-left');
 							} else {
 								if (!leftMarked) {
@@ -101,7 +100,7 @@
 			const days = Array.from(instance.calendar.querySelectorAll('.calendar__datepicker-square.calendar__datepicker-num'));
 			const selectedDayIndex = days.indexOf(selectedDay);
 			for (let i = 0; i <= 3; i++) {
-				if (selectedDayIndex + i < days.length) {				
+				if (selectedDayIndex + i < days.length) {
 					days[selectedDayIndex + i].classList.remove('calendar__datepicker-num-range');
 					days[selectedDayIndex + i].classList.remove('calendar__datepicker-num-range-right');
 				}
@@ -117,8 +116,8 @@
    *
    */
 	function Datepicker(el, options) {
-		if (!el || typeof(el) !== 'object') {
-			console.error(`datepicker: el error, el equal ${el}, el is ${typeof(el)}`);
+		if (!el || typeof (el) !== 'object') {
+			console.error(`datepicker: el error, el equal ${el}, el is ${typeof (el)}`);
 			return;
 		}
 		if (options) {
@@ -349,34 +348,27 @@
 			const weekday = days[(i - 1) % 7];
 			const num = i - (offset >= 0 ? offset : (7 + offset));
 			const thisDay = new Date(currentYear, currentMonth, num);
-			const isEmpty = num < 1 || num > daysInMonth;
+
+			let span = `<span class="calendar__datepicker-num">${thisDay.getDate()}</span>`;
+			let disabled = (minDate && thisDay < minDate);
+			const sat = days[6];
+			const sun = days[0];
+			const currentValidDay = isThisMonth && !disabled && num === today.getDate();
 			let otherClass = '';
-			let span = `<span class="calendar__datepicker-num">${num}</span>`;
-
-			// Empty squares.
-			if (isEmpty) {
-				otherClass = 'calendar__datepicker-empty';
-				span = '';
-
-				// Disabled & current squares.
-			} else {
-				let disabled = (minDate && thisDay < minDate);
-				const sat = days[6];
-				const sun = days[0];
-				const currentValidDay = isThisMonth && !disabled && num === today.getDate();
-
-				// console.log('currentValidDay', currentValidDay);
-				// console.log('isThisMonth', isThisMonth);
-				// console.log('disabled', disabled);
-				// console.log('num', num);
-				// console.log('today', today.getDate());
-
-				otherClass = disabled ? 'calendar__datepicker-disabled' : currentValidDay ? 'calendar__datepicker-current' : '';
-			}
+			otherClass = disabled ? 'calendar__datepicker-disabled' : currentValidDay ? 'calendar__datepicker-current' : '';
 
 			// Currently selected day.
-			if (thisDay.toDateString() === dateSelected.toDateString() && !isEmpty) {
+			if (thisDay.toDateString() === dateSelected.toDateString()) {
 				otherClass += ' calendar__datepicker-active';
+			}
+
+			// prev year
+			if (thisDay.getFullYear() < currentYear || (thisDay.getFullYear() === currentYear && thisDay.getMonth() < currentMonth)) {
+				otherClass += ' prev-month';
+			} else { // next year
+				if (thisDay.getFullYear() > currentYear || (thisDay.getFullYear() === currentYear && thisDay.getMonth() > currentMonth)) {
+					otherClass += ' next-month';
+				}
 			}
 
 			calendarSquares.push(`<div class="calendar__datepicker-square calendar__datepicker-num ${weekday} ${otherClass}">${span}</div>`);
@@ -402,16 +394,26 @@
 		const active = calendar.querySelector('.calendar__datepicker-active');
 		const num = target.textContent;
 		// Keep track of the currently selected date.
-		instance.dateSelected = new Date(currentYear, currentMonth, num);
 
-		instance.calendar.parentNode.querySelector('.calendar__selected-date').innerHTML = `${num} ${monthsSelected[currentMonth]} ${currentYear}`;
+		let date = new Date(currentYear, currentMonth, num);
+
+		if (target.classList.contains('prev-month')) {
+			date.setMonth(date.getMonth() - 1);
+		} else {
+			if (target.classList.contains('next-month')) {
+				date.setMonth(date.getMonth() + 1);
+			}
+		}
+
+		instance.dateSelected = date;
+
+		instance.calendar.parentNode.querySelector('.calendar__selected-date').innerHTML = `${num} ${monthsSelected[date.getMonth()]} ${date.getFullYear()}`;
 
 		// Re-establish the active (highlighted) date.
 		if (active) active.classList.remove('calendar__datepicker-active');
 		target.classList.add('calendar__datepicker-active');
 
 		// new mark in-range days
-		console.log(instance);
 		if (instance.ifRange && instance.ifRangeActive) {
 			markInRangeDays(instance);
 		}
@@ -470,19 +472,9 @@
 		instance.currentMonthName = instance.months[instance.currentMonth];
 		instance.onMonthChange && year && instance.onMonthChange(instance);
 
-
-		console.log(instance);
-		// console.log(instance.dateSelected.getMonth());
-		// console.log(instance.dateSelected.getFullYear());
-		// console.log(instance.currentYear);
-		// console.log(instance.currentMonth);
-
-		if (instance.dateSelected.getMonth() === instance.currentMonth &&
-				instance.dateSelected.getFullYear() === instance.currentYear) {
-					clearMarkInRangeDays(instance);
-					markInRangeDays(instance);
-		}
 		if (instance.ifRange) {
+			clearMarkInRangeDays(instance);
+			markInRangeDays(instance);
 			const checkbox = instance.calendar.querySelector('.calendar__datepicker-checkbox__input');
 			checkbox.addEventListener('click', () => {
 				instance.ifRangeActive = !instance.ifRangeActive;
