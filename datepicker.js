@@ -5,6 +5,20 @@
 })(this, function () {
 	'use strict';
 
+  /*
+    A small polyfill is only intended to satisfy
+    the usage in this datepicker. #BecauseIE.
+  */
+	if (!Array.prototype.includes) {
+		Array.prototype.includes = function (thing) {
+			let found = false;
+			this.forEach(item => {
+				if (item === thing) found = true;
+			});
+			return found;
+		}
+	}
+
 	let datepickers = [];
 	const listeners = ['click', 'focusin', 'keydown', 'input'];
 	const days = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
