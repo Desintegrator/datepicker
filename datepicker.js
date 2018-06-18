@@ -213,6 +213,9 @@
 		calendar.parentNode.querySelector('.calendar__selected-date').innerHTML = `${dateSelected.getDate()} ${monthsSelected[dateSelected.getMonth()]} ${dateSelected.getFullYear()}`;
 		calendar.parentNode.querySelector('.calendar__three-days').innerHTML = '± 3 дня';
 
+		const submitBtn = instance.calendar.querySelector('.calendar__button-submit');
+		submitBtn.addEventListener('click', onSubmitBtnClick.bind({ instance }));
+
 		if (instance.ifRange) {
 			const checkbox = calendar.querySelector('.calendar__datepicker-checkbox__input');
 			checkbox.addEventListener('click', () => {
@@ -274,7 +277,20 @@
 		if (instance.ifRange) {
 			checkbox = createCheckbox();
 		}
-		instance.calendar.innerHTML = controls + month + checkbox;
+		const mobileControls = createMobileControls();
+		instance.calendar.innerHTML = controls + month + checkbox + mobileControls;
+	}
+
+	/*
+   *  Creates the calendar range checkbox.
+   *  Returns a string representation of DOM elements.
+   */
+	function createMobileControls() {
+		return `
+		<div class="calendar__buttons">
+			<button type="button" class="button button_blue-gradient calendar__button-submit">Применить</button>
+		</div>
+	`;
 	}
 
 	/*
@@ -472,6 +488,9 @@
 		instance.currentMonthName = instance.months[instance.currentMonth];
 		instance.onMonthChange && year && instance.onMonthChange(instance);
 
+		const submitBtn = instance.calendar.querySelector('.calendar__button-submit');
+		submitBtn.addEventListener('click', onSubmitBtnClick.bind({ instance }));
+
 		if (instance.ifRange) {
 			clearMarkInRangeDays(instance);
 			markInRangeDays(instance);
@@ -555,6 +574,7 @@
    *  Hides the calendar and calls the `onHide` callback.
    */
 	function hideCal(instance) {
+		console.log('123');
 		instance.calendar.classList.add('calendar__datepicker-hidden');
 		instance.calendar.parentNode.classList.remove('open');
 		instance.onHide && instance.onHide(instance);
@@ -570,6 +590,9 @@
 		instance.onShow && instance.onShow(instance);
 	}
 
+	function onSubmitBtnClick() {
+		hideCal(this.instance);
+	}
 
 	/////////////////////
 	// EVENT FUNCTIONS //
