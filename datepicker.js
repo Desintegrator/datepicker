@@ -314,12 +314,22 @@
 	function createControls(date, instance) {
 		return `
       <div class="calendar__datepicker-controls">
-        <div class="calendar__datepicker-arrow calendar__datepicker-left"></div>
+				<svg class="calendar__datepicker-arrow calendar__datepicker-left" xmlns="http://www.w3.org/2000/svg" id="Layer_1" viewBox="0 0 7 12">
+					<style>
+						.st0{fill:#4d7bd7}
+					</style>
+					<path d="M7 6l-5.7 6L0 10.8 4.5 6 0 1.2 1.3 0z" class="st0"/>
+				</svg>
         <div class="calendar__datepicker-month-year">
           <span class="calendar__datepicker-month">${instance.months[date.getMonth()]}</span>
           <span class="calendar__datepicker-year">${date.getFullYear()}</span>
         </div>
-        <div class="calendar__datepicker-arrow calendar__datepicker-right"></div>
+				<svg class="calendar__datepicker-arrow calendar__datepicker-right" xmlns="http://www.w3.org/2000/svg" id="Layer_1" viewBox="0 0 7 12">
+					<style>
+						.st0{fill:#4d7bd7}
+					</style>
+					<path d="M7 6l-5.7 6L0 10.8 4.5 6 0 1.2 1.3 0z" class="st0"/>
+				</svg>
       </div>
     `;
 	}
@@ -348,17 +358,12 @@
 		copy.setMonth(copy.getMonth() + 1);
 		copy.setDate(0); // Last day in the current month.
 		const daysInMonth = copy.getDate(); // Squares with a number.
-
 		// Will contain string representations of HTML for the squares.
 		const calendarSquares = [];
 
 		// Fancy calculations for the total # of squares.
 		let totalSquares = precedingRow + (((offset + daysInMonth) / 7 | 0) * 7);
 		totalSquares += (offset + daysInMonth) % 7 ? 7 : 0;
-
-		// If the offest happens to be 0 but we did specify a `startDay`,
-		// add 7 to prevent a missing row at the end of the calendar.
-		if (instance.startDay !== 0 && offset === 0) totalSquares += 7;
 
 		for (let i = 1; i <= totalSquares; i++) {
 			const weekday = days[(i - 1) % 7];
@@ -574,10 +579,13 @@
    *  Hides the calendar and calls the `onHide` callback.
    */
 	function hideCal(instance) {
-		console.log('123');
 		instance.calendar.classList.add('calendar__datepicker-hidden');
 		instance.calendar.parentNode.classList.remove('open');
 		instance.onHide && instance.onHide(instance);
+		const navigation = document.querySelector('.navigation');
+		if(navigation) {
+			navigation.classList.remove('navigation_back');
+		}
 	}
 
   /*
@@ -588,6 +596,10 @@
 		instance.calendar.parentNode.classList.add('open');
 		calculatePosition(instance);
 		instance.onShow && instance.onShow(instance);
+		const navigation = document.querySelector('.navigation');
+		if(navigation) {
+			navigation.classList.add('navigation_back');
+		}
 	}
 
 	function onSubmitBtnClick() {
