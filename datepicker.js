@@ -313,23 +313,27 @@
    */
 	function createControls(date, instance) {
 		return `
-      <div class="calendar__datepicker-controls">
-				<svg class="calendar__datepicker-arrow calendar__datepicker-left" xmlns="http://www.w3.org/2000/svg" id="Layer_1" viewBox="0 0 7 12">
-					<style>
-						.st0{fill:#4d7bd7}
-					</style>
-					<path d="M7 6l-5.7 6L0 10.8 4.5 6 0 1.2 1.3 0z" class="st0"/>
-				</svg>
+			<div class="calendar__datepicker-controls">
+				<div class="calendar__datepicker-arrow calendar__datepicker-left">
+					<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" viewBox="0 0 7 12">
+						<style>
+							.st0{fill:#4d7bd7}
+						</style>
+						<path d="M7 6l-5.7 6L0 10.8 4.5 6 0 1.2 1.3 0z" class="st0"/>
+					</svg>
+				</div>
         <div class="calendar__datepicker-month-year">
           <span class="calendar__datepicker-month">${instance.months[date.getMonth()]}</span>
           <span class="calendar__datepicker-year">${date.getFullYear()}</span>
-        </div>
-				<svg class="calendar__datepicker-arrow calendar__datepicker-right" xmlns="http://www.w3.org/2000/svg" id="Layer_1" viewBox="0 0 7 12">
-					<style>
-						.st0{fill:#4d7bd7}
-					</style>
-					<path d="M7 6l-5.7 6L0 10.8 4.5 6 0 1.2 1.3 0z" class="st0"/>
-				</svg>
+				</div>
+				<div class="calendar__datepicker-arrow calendar__datepicker-right">
+					<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" viewBox="0 0 7 12">
+						<style>
+							.st0{fill:#4d7bd7}
+						</style>
+						<path d="M7 6l-5.7 6L0 10.8 4.5 6 0 1.2 1.3 0z" class="st0"/>
+					</svg>
+				</div>
       </div>
     `;
 	}

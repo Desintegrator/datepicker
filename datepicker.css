@@ -112,12 +112,28 @@
       align-items: center;
 }
 .calendar__datepicker .calendar__datepicker-arrow {
+	height: 20px;
+	width: 20px;
+	display: flex;
+  position: relative;
+	cursor: pointer;
+	z-index: 10;
+}
+.calendar__datepicker .calendar__datepicker-arrow:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 100;
+}
+.calendar__datepicker .calendar__datepicker-arrow svg {
 	height: 12px;
 	width: 7px;
 	box-sizing: content-box;
 	padding: 3px 5.5px;
-  position: relative;
-  cursor: pointer;
+	z-index: -1;
 }
 .calendar__datepicker-left {
 	transform: rotateZ(180deg);
