@@ -211,12 +211,12 @@
 		el.appendChild(calendar);
 
 		calendar.parentNode.querySelector('.calendar__selected-date').innerHTML = `${dateSelected.getDate()} ${monthsSelected[dateSelected.getMonth()]} ${dateSelected.getFullYear()}`;
-		calendar.parentNode.querySelector('.calendar__three-days').innerHTML = '± 3 дня';
 
 		const submitBtn = instance.calendar.querySelector('.calendar__button-submit');
 		submitBtn.addEventListener('click', onSubmitBtnClick.bind({ instance }));
 
 		if (instance.ifRange) {
+			calendar.parentNode.querySelector('.calendar__three-days').innerHTML = '± 3 дня';
 			const checkbox = calendar.querySelector('.calendar__datepicker-checkbox__input');
 			checkbox.addEventListener('click', () => {
 				instance.ifRangeActive = !instance.ifRangeActive;
@@ -232,8 +232,6 @@
 			if (instance.ifRangeActive) {
 				markInRangeDays(instance);
 			}
-		} else {
-			instance.calendar.parentNode.removeChild(instance.calendar.parentNode.querySelector('.calendar__three-days'));
 		}
 
 		instance.input = calendar.parentNode.querySelector('.calendar__input');
@@ -505,7 +503,6 @@
 			markInRangeDays(instance);
 			const checkbox = instance.calendar.querySelector('.calendar__datepicker-checkbox__input');
 			checkbox.addEventListener('click', () => {
-				console.log(instance.ifRangeActive);
 				instance.ifRangeActive = !instance.ifRangeActive;
 				if (!instance.ifRangeActive) {
 					clearMarkInRangeDays(instance);
