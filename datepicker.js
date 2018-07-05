@@ -505,6 +505,7 @@
 			markInRangeDays(instance);
 			const checkbox = instance.calendar.querySelector('.calendar__datepicker-checkbox__input');
 			checkbox.addEventListener('click', () => {
+				console.log(instance.ifRangeActive);
 				instance.ifRangeActive = !instance.ifRangeActive;
 				if (!instance.ifRangeActive) {
 					clearMarkInRangeDays(instance);
